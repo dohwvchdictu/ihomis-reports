@@ -1,0 +1,103 @@
+<?php
+
+namespace App\Http\Livewire\Admin\Users;
+
+
+use App\Http\Livewire\Admin\AdminComponent;
+use App\Models\UserReport;
+use Illuminate\Support\Facades\Validator;
+
+class ListUsers extends AdminComponent
+{
+    public $state = [];
+
+    public $user;
+
+    public $showEditModal = false;
+
+    public $userIdBeingRemoved = null;
+
+    public function addNew()
+    {
+        $this->state = [];
+
+        $this->showEditModal = false;
+
+        $this->dispatchBrowserEvent('show-form');
+    }
+
+    public function createUser()
+    {
+        $validateData = Validator::make($this->state, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users_reports',
+            'password' => 'required|confirmed',
+        ])->validate();
+
+        $validateData['password'] = bcrypt($validateData['password']);
+
+        UserReport::create($validateData);
+
+        $this->dispatchBrowserEvent('hide-form', ['message' => 'User added successfully!']);
+
+    }
+
+    public function edit(UserReport $user)
+    {
+
+        $this->showEditModal = true;
+
+        $this->user = $user;
+
+        $this->state = $user->toArray();
+
+        $this->dispatchBrowserEvent('show-form');
+
+    }
+
+    public function updateUser()
+    {
+        $validateData = Validator::make($this->state, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users_reports,email,' . $this->user->id,
+            'password' => 'sometimes|confirmed',
+        ])->validate();
+
+        if (!empty($validateData['password'])) {
+            $validateData['password'] = bcrypt($validateData['password']);
+        }
+
+        $this->user->update($validateData);
+
+        $this->dispatchBrowserEvent('hide-form', ['message' => 'Updated successfully!']);
+
+    }
+
+    public function confirmationUserRemoval($userId)
+    {
+        $this->userIdBeingRemoved = $userId;
+
+        $this->dispatchBrowserEvent('show-delete-modal');
+    }
+
+    public function deleteUser()
+    {
+        $user = UserReport::findOrFail($this->userIdBeingRemoved);
+
+        $user->delete();
+
+        $this->dispatchBrowserEvent('hide-delete-modal', ['message' => 'User deleted successfully!']);
+    }
+
+    public function render()
+    {
+        $users = UserReport::latest()->paginate(5);
+
+        return view(
+            'livewire.admin.users.list-users',
+            [
+                'users' => $users,
+            ]
+        );
+    }
+}
