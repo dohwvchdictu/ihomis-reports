@@ -22,10 +22,10 @@
             <div class="row">
                 <div class="col-lg-12">
 
-                    <div class="d-flex justify-content-start mb-2">
+                    <div class="d-flex align-items-center mx-4 mb-2 w-100">
                         <!-- Search Bar -->
                         <div class="form-group mr-3" style="width: 500px;">
-                            <input type="text" class="form-control" id="searchBar" wire:model="search"
+                            <input type="text" class="form-control" id="searchBar" wire:model.debounce="search"
                                 placeholder="Search" style="font-size: 14px;">
                         </div>
 
@@ -41,7 +41,7 @@
                             </select>
                         </div>
                         <label for="fromDate" style="font-size: 16px;">Type:</label>
-                        <div class="form-group mr-5 ml-1" style="width: 255px;">
+                        <div class="form-group mr-2 ml-1" style="width: 230px;">
                             <select wire:model.defer="type" class="form-control" style="font-size: 14px;">
                                 <option value="0">ALL</option>
                                 <option value="1">ADMISSION</option>
@@ -79,57 +79,75 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" class="px-4 py-1">Claim Series No.</th>
-                                            <th scope="col" class="py-1">Patient Name</th>
-                                            <th scope="col" class="py-1">Member Name</th>
-                                            <th scope="col" class="py-1">Member PIN</th>
-                                            <th scope="col" class="py-1">Date of Admission</th>
-                                            <th scope="col" class="py-1">Date of Discharge</th>
-                                            <th scope="col" class="py-1">Receipt No.</th>
-                                            <th scope="col" class="py-1">Claim No.</th>
-                                            <th scope="col" class="py-1">Receive Date</th>
-                                            <th scope="col" class="py-1">Claim Status</th>
-                                            <th scope="col" class="py-1">First Case Code</th>
-                                            <th scope="col" class="py-1">Professional Fee</th>
-                                            <th scope="col" class="py-1">HCI Fee</th>
-                                            <th scope="col" class="py-1">Total Claim Amount Paid</th>
-                                            <th scope="col" class="py-1">Refile Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($datas as $data)
-                                            <tr class="border-b dark:border-gray-700" style="white-space: nowrap;">
-                                                <td>{{ $data->Pclaimserieslhio }}</td>
-                                                <td>{{ $data->PatientName }}</td>
-                                                <td>{{ $data->MemberName }}</td>
-                                                <td>{{ $data->memphicnum }}</td>
-                                                <td>{{ $data->pAdmissionDate }}</td>
-                                                <td>{{ $data->pDischargeDate }}</td>
-                                                <td>{{ $data->pReceiptTicketNumber }}</td>
-                                                <td>{{ $data->pClaimNumber }}</td>
-                                                <td>{{ $data->preceiveddate }}</td>
-                                                <td>{{ $data->pStatus }}</td>
-                                                <td>{{ $data->firstcasecode }}</td>
-                                                <td>{{ $data->phicdocfee }}</td>
-                                                <td>{{ $data->phichosfee }}</td>
-                                                <td>{{ $data->pTotalClaimAmountPaid }}</td>
-                                                <td>{{ $data->pclaimdaterefile }}</td>
+                                <!-- Table hidden during loading -->
+                                <div wire:loading.remove>
+                                    <table class="table table-hover">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col" class="px-4 py-1">Claim Series No.</th>
+                                                <th scope="col" class="py-1">Patient Name</th>
+                                                <th scope="col" class="py-1">Member Name</th>
+                                                <th scope="col" class="py-1">Member PIN</th>
+                                                <th scope="col" class="py-1">Date of Admission</th>
+                                                <th scope="col" class="py-1">Date of Discharge</th>
+                                                <th scope="col" class="py-1">Receipt No.</th>
+                                                <th scope="col" class="py-1">Claim No.</th>
+                                                <th scope="col" class="py-1">Receive Date</th>
+                                                <th scope="col" class="py-1">Claim Status</th>
+                                                <th scope="col" class="py-1">First Case Code</th>
+                                                <th scope="col" class="py-1">Professional Fee</th>
+                                                <th scope="col" class="py-1">HCI Fee</th>
+                                                <th scope="col" class="py-1">Total Claim Amount Paid</th>
+                                                <th scope="col" class="py-1">Refile Date</th>
                                             </tr>
-                                        @empty
-                                            <tr class="text-center">
-                                                <td colspan="15">No results found</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($datas as $data)
+                                                <tr class="border-b dark:border-gray-700"
+                                                    style="white-space: nowrap;">
+                                                    <td>{{ $data->Pclaimserieslhio }}</td>
+                                                    <td>{{ $data->PatientName }}</td>
+                                                    <td>{{ $data->MemberName }}</td>
+                                                    <td>{{ $data->memphicnum }}</td>
+                                                    <td>{{ $data->pAdmissionDate }}</td>
+                                                    <td>{{ $data->pDischargeDate }}</td>
+                                                    <td>{{ $data->pReceiptTicketNumber }}</td>
+                                                    <td>{{ $data->pClaimNumber }}</td>
+                                                    <td>{{ $data->preceiveddate }}</td>
+                                                    <td>{{ $data->pStatus }}</td>
+                                                    <td>{{ $data->firstcasecode }}</td>
+                                                    <td>{{ $data->phicdocfee }}</td>
+                                                    <td>{{ $data->phichospfee }}</td>
+                                                    <td>{{ $data->pTotalClaimAmountPaid }}</td>
+                                                    <td>{{ $data->pclaimdaterefile }}</td>
+                                                </tr>
+                                            @empty
+                                                <tr class="text-center">
+                                                    <td colspan="15">No results found</td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Show loading while fetching data -->
+                                <div wire:loading class="text-center py-4 justify-content-center align-items-center"
+                                    style="height: 100%; width: 100%;">
+                                    <div class="spinner-border text-success" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <p class="text-success mt-2">Loading data...</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="card-footer d-flex justify-content-end">
-                            {{ $datas->links() }}
+                        <div class="pagination-summary mb-2 card-footer">
+                            <div class="mb-2">
+                                Showing {{ $datas->count() }} out of {{ $datas->total() }} results
+                            </div>
+                            <div>
+                                {{ $datas->links() }}
+                            </div>
                         </div>
+
                     </div>
 
                 </div>

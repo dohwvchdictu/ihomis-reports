@@ -35,24 +35,6 @@
             /* Optional: centers the header text */
         }
 
-        /* Smaller spinner */
-        .spinner-border {
-            width: 2rem;
-            height: 2rem;
-            border-width: 0.25rem;
-            /* Adjust thickness of the spinner */
-        }
-
-        /* Position spinner on top of the table */
-        .loading-spinner-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 999;
-            display: none;
-        }
-
         /* Optional: Add some padding to the table to account for the spinner */
         .table-responsive {
             position: relative;

@@ -61,7 +61,7 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview ml-2">
                         <li class="nav-item">
                             <a href="{{ route('reports.philhealthestatussummary') }}"
                                 class="nav-link {{ request()->is('reports/philhealthestatussummary') ? 'active' : '' }}"
@@ -82,7 +82,7 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview ml-2">
                         <li class="nav-item">
                             <a href="{{ route('reports.billingsummaryreport') }}"
                                 class="nav-link {{ request()->is('reports/billing-summary-report') ? 'active' : '' }}"
@@ -103,7 +103,7 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview ml-2">
                         <li class="nav-item">
                             <a href="{{ route('reports.NoOfPatientsAndConsultationsEncoded') }}"
                                 class="nav-link {{ request()->is('reports/no-of-patients-and-consultations-encoded') ? 'active' : '' }}"
