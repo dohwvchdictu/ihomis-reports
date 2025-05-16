@@ -29,7 +29,7 @@
                             <!-- Month Dropdown -->
                             <div>
                                 <label class="form-label">Month</label>
-                                <select class="form-control" wire:model="month" style="width: 120px;">
+                                <select class="form-control" wire:model.defer="state.month" style="width: 120px;">
                                     @foreach (range(1, 12) as $m)
                                         <option value="{{ sprintf('%02d', $m) }}">
                                             {{ date('F', mktime(0, 0, 0, $m, 1)) }}
@@ -41,7 +41,7 @@
                             <!-- Year Dropdown -->
                             <div>
                                 <label class="form-label">Year</label>
-                                <select class="form-control" wire:model="year" style="width: 80px;">
+                                <select class="form-control" wire:model.defer="state.year" style="width: 80px;">
                                     @foreach (range(now()->year, 2020) as $y)
                                         <option value="{{ $y }}">{{ $y }}</option>
                                     @endforeach
@@ -51,7 +51,7 @@
                             <!-- Filter Button -->
                             <div>
                                 <label class="form-label d-block">&nbsp;</label>
-                                <button class="btn btn-primary" wire:click="loadData" style="width: 80px;"><i
+                                <button class="btn btn-primary" wire:click="filter" style="width: 80px;"><i
                                         class="fas fa-filter"></i> Filter</button>
                             </div>
                         </div>
@@ -73,30 +73,41 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr class="text-sm">
-                                            <th scope="col" class="px-4 py-1">Department</th>
-                                            <th scope="col" class="py-1">No. of Patients Encoded</th>
-                                            <th scope="col" class="py-1">No. of Consultations Encoded</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @forelse ($datas as $data)
-                                            <tr @if (isset($data->Department) && $data->Department === 'Total') style="font-weight: bold;" @endif>
-                                                <td>{{ $data->Department ?? 'N/A' }}</td>
-                                                <td>{{ isset($data->No_of_Patients_Encoded) ? number_format($data->No_of_Patients_Encoded) : 'N/A' }}
-                                                </td>
-                                                <td>{{ isset($data->No_of_Consultations_Encoded) ? number_format($data->No_of_Consultations_Encoded) : 'N/A' }}
-                                                </td>
+                                <!-- Table hidden during loading -->
+                                <div wire:loading.remove>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr class="text-sm">
+                                                <th scope="col" class="px-4 py-1">Department</th>
+                                                <th scope="col" class="py-1">No. of Patients Encoded</th>
+                                                <th scope="col" class="py-1">No. of Consultations Encoded</th>
                                             </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="3">No results found</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($datas as $data)
+                                                <tr @if (isset($data->Department) && $data->Department === 'Total') style="font-weight: bold;" @endif>
+                                                    <td>{{ $data->Department ?? 'N/A' }}</td>
+                                                    <td>{{ isset($data->No_of_Patients_Encoded) ? number_format($data->No_of_Patients_Encoded) : 'N/A' }}
+                                                    </td>
+                                                    <td>{{ isset($data->No_of_Consultations_Encoded) ? number_format($data->No_of_Consultations_Encoded) : 'N/A' }}
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="3">No results found</td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Show loading while fetching data -->
+                                <div wire:loading class="text-center py-4 justify-content-center align-items-center"
+                                    style="height: 100%; width: 100%;">
+                                    <div class="spinner-border text-success" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <p class="text-success mt-2">Loading data...</p>
+                                </div>
                             </div>
                         </div>
                     </div>

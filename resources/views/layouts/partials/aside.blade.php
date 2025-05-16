@@ -114,6 +114,25 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item has-treeview {{ request()->is('reports/telemedicine') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-file"></i>
+                        <p>
+                            Telemedicine
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview ml-2">
+                        <li class="nav-item">
+                            <a href="{{ route('reports.TelemedicineMasterlist') }}"
+                                class="nav-link {{ request()->is('reports/telemedicine') ? 'active' : '' }}"
+                                style="{{ request()->is('reports/telemedicine') ? 'background-color: #10B981; color: #ffffff;' : '' }}">
+                                <i class="nav-icon fas fa-file-alt"></i>
+                                <p>Masterlist</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
                 {{-- <li class="nav-item">
                     <a class="nav-link">

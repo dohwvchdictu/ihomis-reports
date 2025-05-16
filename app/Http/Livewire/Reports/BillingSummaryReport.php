@@ -23,8 +23,6 @@ class BillingSummaryReport extends Component
     protected $updatesQueryString = ['search', 'state'];
     public function mount(): void
     {
-        $today = Carbon::today();
-
         // Set default date range: from first day of this month to today
         $this->fDate = Carbon::today()->startOfMonth()->toDateString();
         $this->tDate = Carbon::today()->toDateString();

@@ -8,6 +8,7 @@ use App\Http\Livewire\Reports\BillingSummaryReport;
 use App\Http\Livewire\Reports\NoOfPatientsAndConsultationsEncoded;
 use App\Http\Livewire\Reports\PhilhealthStatusSummary;
 use App\Http\Livewire\Admin\Users\ListUsers;
+use App\Http\Livewire\Reports\TelemedicineMasterlist;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,3 +37,5 @@ Route::get('reports/philhealthestatussummary', PhilhealthStatusSummary::class)->
 Route::get('reports/billing-summary-report', BillingSummaryReport::class)->name('reports.billingsummaryreport');
 
 Route::get('reports/no-of-patients-and-consultations-encoded', NoOfPatientsAndConsultationsEncoded::class)->name('reports.NoOfPatientsAndConsultationsEncoded');
+
+Route::get('reports/telemedicine-masterlist', TelemedicineMasterlist::class)->name('reports.TelemedicineMasterlist');
