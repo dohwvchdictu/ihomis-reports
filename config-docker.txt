@@ -1,0 +1,14 @@
+#Pull ihomis-reports-app
+docker pull mjlscna/ihomis-reports-app:latest
+
+#Run the container
+docker run -d -p 443:443 --name ihomis-reports mjlscna/ihomis-reports-app:latest
+
+# Enter the container
+docker exec -it ihomis-reports bash
+
+# Edit the .env file
+nano /var/www/html/.env
+
+#Restart the container
+docker restart ihomis-reports
