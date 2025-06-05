@@ -18,9 +18,11 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Set permissions
+# Set permissions and clear any cached config
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache \
+    && php artisan config:clear
+
 
 # Copy configs
 COPY ./nginx.conf /etc/nginx/nginx.conf
@@ -31,4 +33,4 @@ COPY ./ssl /etc/nginx/ssl
 EXPOSE 80 443
 
 # Start all services
-CMD ["/usr/bin/supervisord", "-n"]
+CMD php artisan config:clear && /usr/bin/supervisord -n
