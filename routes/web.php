@@ -9,33 +9,31 @@ use App\Http\Livewire\Reports\NoOfPatientsAndConsultationsEncoded;
 use App\Http\Livewire\Reports\PhilhealthStatusSummary;
 use App\Http\Livewire\Admin\Users\ListUsers;
 use App\Http\Livewire\Reports\TelemedicineMasterlist;
+use App\Http\Livewire\LoginPage;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+// 👇 Public Login Route
+Route::get('/login', LoginPage::class)->name('login');
 
-Route::get('/', PhilhealthStatusSummary::class)->name('reports.home');
+// 👇 Protected Routes (require authentication)
+Route::middleware(['auth'])->group(function () {
 
-Route::get('admin/dashboard', DashboardController::class)->name('admin.dashboard');
+    Route::get('/', PhilhealthStatusSummary::class)->name('reports.home');
 
-Route::get('admin/users', ListUsers::class)->name('admin.users');
+    Route::get('admin/dashboard', DashboardController::class)->name('admin.dashboard');
 
-Route::get('admin/appointments', ListAppointments::class)->name('admin.appointments');
+    Route::get('admin/users', ListUsers::class)->name('admin.users');
 
-Route::get('admin/appointments/create', CreateAppointmentForm::class)->name('admin.appointments.create');
+    Route::get('admin/appointments', ListAppointments::class)->name('admin.appointments');
+    Route::get('admin/appointments/create', CreateAppointmentForm::class)->name('admin.appointments.create');
 
-Route::get('reports/philhealthestatussummary', PhilhealthStatusSummary::class)->name('reports.philhealthestatussummary');
+    Route::get('reports/philhealthestatussummary', PhilhealthStatusSummary::class)->name('reports.philhealthestatussummary');
+    Route::get('reports/billing-summary-report', BillingSummaryReport::class)->name('reports.billingsummaryreport');
+    Route::get('reports/no-of-patients-and-consultations-encoded', NoOfPatientsAndConsultationsEncoded::class)->name('reports.NoOfPatientsAndConsultationsEncoded');
+    Route::get('reports/telemedicine-masterlist', TelemedicineMasterlist::class)->name('reports.TelemedicineMasterlist');
 
-Route::get('reports/billing-summary-report', BillingSummaryReport::class)->name('reports.billingsummaryreport');
-
-Route::get('reports/no-of-patients-and-consultations-encoded', NoOfPatientsAndConsultationsEncoded::class)->name('reports.NoOfPatientsAndConsultationsEncoded');
-
-Route::get('reports/telemedicine-masterlist', TelemedicineMasterlist::class)->name('reports.TelemedicineMasterlist');
+});
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login');
+})->name('logout');
