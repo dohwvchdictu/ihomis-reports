@@ -15,6 +15,9 @@ WORKDIR /var/www/html
 # Copy Laravel app files
 COPY . .
 
+# Copy real images directly (avoid symlink issues)
+COPY storage/app/public/images /var/www/html/public/storage/images
+
 # Install PHP dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 

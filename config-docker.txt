@@ -12,3 +12,13 @@ cat /var/www/html/.env
 
 #Restart the container
 docker restart ihomis-reports
+
+#Build image
+docker build -t ihomis-reports:latest .
+#Locale Build
+docker run -d --name ihomis-reports -p 80:80 -p 443:443 -v "C:\ihomis-reports-config\.env:/var/www/html/.env" ihomis-reports:latest
+
+#Push to Docker
+docker tag ihomis-reports-app:latest mjlscna/ihomis-reports-app:latest
+docker push mjlscna/ihomis-reports-app:latest
+
