@@ -19,13 +19,26 @@ class LoginPage extends Component
             'password' => 'required',
         ]);
 
-        if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
-            session()->regenerate();
-            return redirect()->intended('/admin/dashboard');
+        // Get user by email first
+        $user = \App\Models\User::where('email', $this->email)->first();
+
+        if (!$user || !\Hash::check($this->password, $user->password)) {
+            $this->errorMessage = 'Invalid credentials.';
+            return;
         }
 
-        $this->errorMessage = 'Invalid credentials.';
+        if ($user->active != 1) {
+            $this->errorMessage = 'Account is not Activated!';
+            return;
+        }
+
+        // All good, log in
+        Auth::login($user);
+        session()->regenerate();
+        return redirect()->intended('/admin/dashboard');
     }
+
+
 
     public function togglePasswordVisibility()
     {
