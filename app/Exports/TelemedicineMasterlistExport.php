@@ -30,7 +30,8 @@ class TelemedicineMasterlistExport implements FromCollection, WithHeadings, With
             'Age',
             'Type of Service',
             'Chief Complaint',
-            'Diagnosis',
+            'Clinical Diagnosis',
+            'Final Diagnosis',
             'Attending Provider',
         ];
     }
@@ -43,7 +44,8 @@ class TelemedicineMasterlistExport implements FromCollection, WithHeadings, With
             $row->Age,
             $row->TypeofService,
             $row->ChiefComplaint,
-            $row->Diagnosis,
+            $row->ClinicalDiagnosis,
+            $row->FinalDiagnosis,
             $row->AttendingProvider,
         ];
     }

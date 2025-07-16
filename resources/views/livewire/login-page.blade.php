@@ -107,11 +107,12 @@
 
                     <form wire:submit.prevent="login" class="space-y-4">
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input wire:model.defer="email" id="email" type="email"
+                            <label for="identifier" class="block text-sm font-medium text-gray-700">Username or
+                                Email</label>
+                            <input wire:model.defer="identifier" id="identifier" type="text"
                                 class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
                                 required autofocus>
-                            @error('email')
+                            @error('identifier')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
@@ -125,7 +126,6 @@
                                 class="block w-full px-4 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-white"
                                 required>
 
-
                             <button type="button" wire:click="togglePasswordVisibility"
                                 class="absolute top-9 right-3 text-gray-500 dark:text-neutral-400 focus:outline-none">
                                 @if ($showPassword)
@@ -134,19 +134,19 @@
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478
-                    0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542
-                    7-4.477 0-8.268-2.943-9.542-7z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542
+                        7-4.477 0-8.268-2.943-9.542-7z" />
                                     </svg>
                                 @else
                                     {{-- Eye Slash Icon --}}
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478
-                    0-8.268-2.943-9.542-7a10.05 10.05 0 013.145-4.568M6.702
-                    6.702A9.96 9.96 0 0112 5c4.478 0 8.268 2.943
-                    9.542 7a10.015 10.015 0 01-4.225 5.045M15
-                    12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        0-8.268-2.943-9.542-7a10.05 10.05 0
+                        013.145-4.568M6.702 6.702A9.96 9.96 0
+                        0112 5c4.478 0 8.268 2.943 9.542
+                        7a10.015 10.015 0 01-4.225 5.045M15
+                        12a3 3 0 11-6 0 3 3 0 016 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M3 3l18 18" />
                                     </svg>
@@ -158,7 +158,6 @@
                             @enderror
                         </div>
 
-
                         <div>
                             <button type="submit"
                                 class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition">
@@ -166,6 +165,8 @@
                             </button>
                         </div>
                     </form>
+
+
                 </div>
             </div>
         </div>

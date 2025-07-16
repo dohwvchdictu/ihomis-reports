@@ -76,7 +76,8 @@
                                                 <th scope="col" class="py-1">Age</th>
                                                 <th scope="col" class="py-1">Type of Service</th>
                                                 <th scope="col" class="py-1">Chief Complaint</th>
-                                                <th scope="col" class="py-1">Diagnosis</th>
+                                                <th scope="col" class="py-1">Clinical Diagnosis</th>
+                                                <th scope="col" class="py-1">Final Diagnosis</th>
                                                 <th scope="col" class="py-1">Attending Provider</th>
                                             </tr>
                                         </thead>
@@ -89,7 +90,8 @@
                                                         <td>{{ $ddata->Age }}</td>
                                                         <td>{{ $ddata->TypeofService }}</td>
                                                         <td>{{ $ddata->ChiefComplaint }}</td>
-                                                        <td>{{ $ddata->Diagnosis }}</td>
+                                                        <td>{{ $ddata->ClinicalDiagnosis }}</td>
+                                                        <td>{{ $ddata->FinalDiagnosis }}</td>
                                                         <td>{{ $ddata->AttendingProvider }}</td>
                                                     </tr>
                                                 @endforeach

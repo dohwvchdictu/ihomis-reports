@@ -1,24 +1,55 @@
 #Pull ihomis-reports-app
-docker pull mjlscna/ihomis-reports-app:latest
+#for iHOMIS Plus user: docker pull dohr06ictu/ihomis-reports-app:v1.1
+#for iHOMIS no login: docker pull dohr06ictu/ihomis-reports-app:nlv1.1
+
 
 #Run the container
-docker run -d --name ihomis-reports -p 443:443 -v "C:\ihomis-reports-config\.env:/var/www/html/.env" mjlscna/ihomis-reports-app:latest
+#for iHOMIS Plus user: docker run -d --name ihomis-reports -p 2443:443 -v "C:\ihomis-reports-config\.env:/var/www/html/.env" dohr06ictu/ihomis-reports-app:v1.1
+#for iHOMIS no login: docker run -d --name ihomis-reports -p 2443:443 -v "C:\ihomis-reports-config\.env:/var/www/html/.env" dohr06ictu/ihomis-reports-app:nlv1.1
 
---optional
-#To check if right env is use
-docker exec -it ihomis-reports bash
+#add ihomis-reports.docker.config in laragon nginx -> sites-enabled
+#ihomis-reports.docker.config
+server {
+    listen 443 ssl;
+    server_name ihomis-reports.docker;
 
-cat /var/www/html/.env
+    ssl_certificate      C:/laragon/etc/ssl/laragon.crt;
+	ssl_certificate_key  C:/laragon/etc/ssl/laragon.key;
+
+    location / {
+        proxy_pass https://127.0.0.1:2443;
+        proxy_ssl_verify off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
 
 #Restart the container
 docker restart ihomis-reports
 
+
+
+
+
+
+
 #Build image
-docker build -t ihomis-reports:latest .
+docker build -t ihomis-reports-app:v1.1 .
+docker build -t ihomis-reports-app:nlv1.1 .
+
 #Locale Build
-docker run -d --name ihomis-reports -p 80:80 -p 443:443 -v "C:\ihomis-reports-config\.env:/var/www/html/.env" ihomis-reports:latest
+docker run -d --name ihomis-reports-app -p 2443:443 -v "C:\ihomis-reports-config\.env:/var/www/html/.env" ihomis-reports-app:v1.1
 
 #Push to Docker
-docker tag ihomis-reports-app:latest mjlscna/ihomis-reports-app:latest
-docker push mjlscna/ihomis-reports-app:latest
+    # Push login version
+    docker tag ihomis-reports-app:v1.1 dohr06ictu/ihomis-reports-app:v1.1
+
+    docker push dohr06ictu/ihomis-reports-app:v1.1
+
+    # Push no-login version
+    docker tag ihomis-reports-app:nlv1.1 dohr06ictu/ihomis-reports-app:nlv1.1
+
+    docker push dohr06ictu/ihomis-reports-app:nlv1.1
+
 

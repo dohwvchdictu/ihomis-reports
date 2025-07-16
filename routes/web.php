@@ -21,17 +21,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', PhilhealthStatusSummary::class)->name('reports.home');
 
     Route::get('admin/dashboard', DashboardController::class)->name('admin.dashboard');
-
-    Route::get('admin/users', ListUsers::class)->name('admin.users');
-
-    Route::get('admin/appointments', ListAppointments::class)->name('admin.appointments');
-    Route::get('admin/appointments/create', CreateAppointmentForm::class)->name('admin.appointments.create');
-
     Route::get('reports/philhealthestatussummary', PhilhealthStatusSummary::class)->name('reports.philhealthestatussummary');
     Route::get('reports/billing-summary-report', BillingSummaryReport::class)->name('reports.billingsummaryreport');
     Route::get('reports/no-of-patients-and-consultations-encoded', NoOfPatientsAndConsultationsEncoded::class)->name('reports.NoOfPatientsAndConsultationsEncoded');
     Route::get('reports/telemedicine-masterlist', TelemedicineMasterlist::class)->name('reports.TelemedicineMasterlist');
 
+    // Route::get('admin/users', ListUsers::class)->name('admin.users');
 });
 Route::post('/logout', function () {
     Auth::logout();

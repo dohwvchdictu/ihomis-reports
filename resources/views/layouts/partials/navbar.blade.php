@@ -34,8 +34,6 @@
             </a>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                {{-- <a class="dropdown-item" href="#">Profile</a>
-                <div class="dropdown-divider"></div> --}}
                 <a class="dropdown-item text-danger" href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt mr-1"></i> Logout

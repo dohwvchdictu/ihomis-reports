@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\User;
+use App\Models\UserAcc;
+use Hash;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -11,18 +14,20 @@ class LoginPage extends Component
     public $password = '';
     public $showPassword = false;
     public $errorMessage = '';
+    public $identifier;
 
     public function login()
     {
         $this->validate([
-            'email' => 'required|email',
+            'identifier' => 'required',
             'password' => 'required',
         ]);
 
         // Get user by email first
-        $user = \App\Models\User::where('email', $this->email)->first();
+        $user = User::where('email', $this->identifier)->first();
 
-        if (!$user || !\Hash::check($this->password, $user->password)) {
+
+        if (!$user || !Hash::check($this->password, $user->password)) {
             $this->errorMessage = 'Invalid credentials.';
             return;
         }
@@ -35,15 +40,14 @@ class LoginPage extends Component
         // All good, log in
         Auth::login($user);
         session()->regenerate();
-        return redirect()->intended('/admin/dashboard');
+        return redirect()->intended('/');
     }
-
-
 
     public function togglePasswordVisibility()
     {
         $this->showPassword = !$this->showPassword;
     }
+
 
     public function render()
     {
