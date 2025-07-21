@@ -62,6 +62,7 @@ class PhilhealthStatusSummary extends Component
 
     public function export()
     {
+
         if ($this->type === '1') {
             $collection = $this->baseQuery('hadmlog')->get();
         } elseif ($this->type === '2') {
@@ -73,7 +74,6 @@ class PhilhealthStatusSummary extends Component
         }
 
         return Excel::download(new PHECStatusExport($collection), "PhilHealth-Eclaims-Status-Report({$this->fDate}_to_{$this->tDate}).xlsx");
-
     }
 
 

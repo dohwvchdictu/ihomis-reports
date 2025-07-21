@@ -97,7 +97,7 @@ class TelemedicineMasterlist extends Component
                 'hmrhisto.history AS ChiefComplaint',
                 'clinical_diag.diagtext AS ClinicalDiagnosis',
                 'final_diag.diagtext AS FinalDiagnosis',
-                DB::raw("CONCAT(TRIM(IFNULL(hpersonal.firstname, '')), ' ', TRIM(IFNULL(hpersonal.middlename, '')), ' ', TRIM(IFNULL(hpersonal.lastname, ''))) AS AttendingProvider"),
+                DB::raw("CONCAT(TRIM(IFNULL(hpersonal.empprefix, '')), IF(hpersonal.empprefix != '', '. ', ''), TRIM(IFNULL(hpersonal.firstname, '')), ' ', TRIM(IFNULL(hpersonal.middlename, '')), ' ', TRIM(IFNULL(hpersonal.lastname, ''))) AS AttendingProvider"),
             ])
             ->whereRaw('DATE(hopdlog.opddate) BETWEEN ? AND ?', [$this->fDate, $this->tDate])
             ->whereRaw('LOWER(hmrhisto.histype) = ?', ['çompl'])

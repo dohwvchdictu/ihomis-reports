@@ -13,6 +13,7 @@
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
+
         </div><!-- /.container-fluid -->
     </div>
 
@@ -26,13 +27,14 @@
                         <!-- Search Bar -->
                         <div class="form-group mr-3" style="width: 500px;">
                             <input type="text" class="form-control" id="searchBar" wire:model.debounce="search"
-                                placeholder="Search" style="font-size: 14px;">
+                                wire:loading.attr="disabled" wire:target="filter" placeholder="Search"
+                                style="font-size: 14px;">
                         </div>
 
-                        <label for="fromDate" style="font-size: 16px;">Status:</label>
+                        <label for="status" style="font-size: 16px;">Status:</label>
                         <div class="form-group w-10 mr-2 ml-1">
-                            <select wire:model.defer="status" class="form-control"
-                                style="flex: 1; width: 130px; font-size: 14px;">
+                            <select wire:model.defer="status" wire:loading.attr="disabled" wire:target="filter"
+                                class="form-control" style="flex: 1; width: 130px; font-size: 14px;">
                                 <option value="">ALL</option>
                                 <option value="WITH CHEQUE">WITH CHEQUE</option>
                                 <option value="IN PROCESS">IN PROCESS</option>
@@ -40,9 +42,11 @@
                                 <option value="DENIED">DENIED</option>
                             </select>
                         </div>
-                        <label for="fromDate" style="font-size: 16px;">Type:</label>
+
+                        <label for="type" style="font-size: 16px;">Type:</label>
                         <div class="form-group mr-2 ml-1" style="width: 230px;">
-                            <select wire:model.defer="type" class="form-control" style="font-size: 14px;">
+                            <select wire:model.defer="type" wire:loading.attr="disabled" wire:target="filter"
+                                class="form-control" style="font-size: 14px;">
                                 <option value="0">ALL</option>
                                 <option value="1">ADMISSION</option>
                                 <option value="2">OPD</option>
@@ -52,74 +56,80 @@
                         <!-- From Date -->
                         <label for="fromDate" style="font-size: 16px;">From:</label>
                         <div class="form-group mr-2 ml-1" style="width: 120px;">
-                            <input type="date" wire:model.defer="state.fdate" class="form-control"
-                                style="font-size: 14px;">
+                            <input type="date" wire:model.defer="state.fdate" wire:loading.attr="disabled"
+                                wire:target="filter" class="form-control" style="font-size: 14px;">
                         </div>
-
 
                         <!-- To Date -->
                         <label for="toDate" style="font-size: 16px;">To:</label>
                         <div class="form-group mr-2 ml-1" style="width: 120px;">
-                            <input type="date" wire:model.defer="state.tdate" class="form-control"
-                                style="font-size: 14px;">
+                            <input type="date" wire:model.defer="state.tdate" wire:loading.attr="disabled"
+                                wire:target="filter" class="form-control" style="font-size: 14px;">
                         </div>
 
                         <!-- Filter Button -->
                         <div class="form-group w-25 mr-4">
-                            <button class="btn btn-primary w-30 mr-4" wire:click="filter"
-                                wire:loading.attr="disabled"><i class="fas fa-filter"></i> Filter</button>
+                            <button class="btn btn-primary w-30 mr-4" wire:click="filter" wire:loading.attr="disabled">
+                                <i class="fas fa-filter"></i> Filter
+                            </button>
                         </div>
 
+                        <!-- Export Button -->
                         <div class="form-group w-25">
-                            <button class="btn btn-warning w-30 mr-4" wire:click="export"
-                                wire:loading.attr="disabled"><i class="fas fa-file-excel"></i> Export</button>
+                            <button class="btn btn-warning w-30 mr-4" wire:click="export" wire:loading.attr="disabled"
+                                wire:target="filter">
+                                <i class="fas fa-file-excel"></i> Export
+                            </button>
                         </div>
                     </div>
 
+                    <!-- Table Card -->
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <!-- Table hidden during loading -->
+                                <!-- Table displayed when not loading -->
                                 <div wire:loading.remove>
                                     <table class="table table-hover">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col" class="px-4 py-1">Claim Series No.</th>
-                                                <th scope="col" class="py-1">Patient Name</th>
-                                                <th scope="col" class="py-1">Member Name</th>
-                                                <th scope="col" class="py-1">Member PIN</th>
-                                                <th scope="col" class="py-1">Date of Admission</th>
-                                                <th scope="col" class="py-1">Date of Discharge</th>
-                                                <th scope="col" class="py-1">Receipt No.</th>
-                                                <th scope="col" class="py-1">Claim No.</th>
-                                                <th scope="col" class="py-1">Receive Date</th>
-                                                <th scope="col" class="py-1">Claim Status</th>
-                                                <th scope="col" class="py-1">First Case Code</th>
-                                                <th scope="col" class="py-1">Professional Fee</th>
-                                                <th scope="col" class="py-1">HCI Fee</th>
-                                                <th scope="col" class="py-1">Total Claim Amount Paid</th>
-                                                <th scope="col" class="py-1">Refile Date</th>
+                                                <th class="px-4 py-1">Claim Series No.</th>
+                                                <th class="py-1">Patient Name</th>
+                                                <th class="py-1">Member Name</th>
+                                                <th class="py-1">Member PIN</th>
+                                                <th class="py-1">Date of Admission</th>
+                                                <th class="py-1">Date of Discharge</th>
+                                                <th class="py-1">Receipt No.</th>
+                                                <th class="py-1">Claim No.</th>
+                                                <th class="py-1">Receive Date</th>
+                                                <th class="py-1">Claim Status</th>
+                                                <th class="py-1">First Case Code</th>
+                                                <th class="py-1">Professional Fee</th>
+                                                <th class="py-1">HCI Fee</th>
+                                                <th class="py-1">Total Claim Amount Paid</th>
+                                                <th class="py-1">Refile Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @forelse ($datas as $data)
-                                                <tr class="border-b dark:border-gray-700"
-                                                    style="white-space: nowrap;">
-                                                    <td>{{ $data->Pclaimserieslhio }}</td>
+                                                <tr style="white-space: nowrap;">
+                                                    <td class="text-center">{{ $data->Pclaimserieslhio }}</td>
                                                     <td>{{ $data->PatientName }}</td>
                                                     <td>{{ $data->MemberName }}</td>
-                                                    <td>{{ $data->memphicnum }}</td>
-                                                    <td>{{ $data->pAdmissionDate }}</td>
-                                                    <td>{{ $data->pDischargeDate }}</td>
+                                                    <td class="text-center">{{ $data->memphicnum }}</td>
+                                                    <td class="text-center">{{ $data->pAdmissionDate }}</td>
+                                                    <td class="text-center">{{ $data->pDischargeDate }}</td>
                                                     <td>{{ $data->pReceiptTicketNumber }}</td>
                                                     <td>{{ $data->pClaimNumber }}</td>
-                                                    <td>{{ $data->preceiveddate }}</td>
-                                                    <td>{{ $data->pStatus }}</td>
-                                                    <td>{{ $data->firstcasecode }}</td>
-                                                    <td>{{ $data->phicdocfee }}</td>
-                                                    <td>{{ $data->phichospfee }}</td>
-                                                    <td>{{ $data->pTotalClaimAmountPaid }}</td>
-                                                    <td>{{ $data->pclaimdaterefile }}</td>
+                                                    <td class="text-center">{{ $data->preceiveddate }}</td>
+                                                    <td class="text-center">{{ $data->pStatus }}</td>
+                                                    <td class="text-center">{{ $data->firstcasecode }}</td>
+                                                    <td class="text-right">{{ number_format($data->phicdocfee, 2) }}
+                                                    </td>
+                                                    <td class="text-right">{{ number_format($data->phichospfee, 2) }}
+                                                    </td>
+                                                    <td class="text-right">
+                                                        {{ number_format($data->pTotalClaimAmountPaid, 2) }}</td>
+                                                    <td class="text-center">{{ $data->pclaimdaterefile }}</td>
                                                 </tr>
                                             @empty
                                                 <tr class="text-center">
@@ -129,8 +139,10 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- Show loading while fetching data -->
-                                <div wire:loading class="text-center py-4 justify-content-center align-items-center"
+
+                                <!-- Loading during filter/search -->
+                                <div wire:loading wire:target="filter, search, status, type, state.fdate, state.tdate"
+                                    class="text-center py-4 justify-content-center align-items-center"
                                     style="height: 100%; width: 100%;">
                                     <div class="spinner-border text-success" role="status">
                                         <span class="sr-only">Loading...</span>
@@ -139,6 +151,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="pagination-summary mb-2 card-footer">
                             <div class="mb-2">
                                 Showing {{ $datas->count() }} out of {{ $datas->total() }} results
@@ -147,13 +160,22 @@
                                 {{ $datas->links() }}
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+        </div>
+
+        <!-- Export loading overlay (initially hidden) -->
+        <div wire:loading.flex wire:target="export" class="justify-content-center align-items-center"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+           background-color: rgba(255, 255, 255, 0.8); z-index: 1050;">
+            <div class="text-center">
+                <div class="spinner-border text-warning" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Exporting...</span>
+                </div>
+                <p class="mt-3 font-weight-bold text-dark">Exporting data, please wait...</p>
+            </div>
+        </div>
     </div>
     <!-- /.content -->
 

@@ -28,26 +28,28 @@
                         <!-- Search Bar -->
                         <div class="form-group mr-3" style="width: 200px;">
                             <input type="text" class="form-control" id="searchBar" wire:model.debounce="search"
-                                placeholder="Search" style="font-size: 14px;">
+                                wire:loading.attr="disabled" wire:target="filter" placeholder="Search"
+                                style="font-size: 14px;">
                         </div>
 
                         <!-- From Date -->
                         <label for="fromDate" class="mb-0" style="font-size: 16px;">From:</label>
                         <div class="form-group mr-2 ml-1" style="width: 120px;">
-                            <input type="date" wire:model.defer="state.fdate" class="form-control"
-                                style="font-size: 14px;">
+                            <input type="date" wire:model.defer="state.fdate" wire:loading.attr="disabled"
+                                wire:target="filter" class="form-control" style="font-size: 14px;">
                         </div>
 
                         <!-- To Date -->
                         <label for="toDate" class="mb-0" style="font-size: 16px;">To:</label>
                         <div class="form-group mr-2 ml-1" style="width: 120px;">
-                            <input type="date" wire:model.defer="state.tdate" class="form-control"
-                                style="font-size: 14px;">
+                            <input type="date" wire:model.defer="state.tdate" wire:loading.attr="disabled"
+                                wire:target="filter" class="form-control" style="font-size: 14px;">
                         </div>
 
                         <!-- Filter Button -->
                         <div class="form-group mr-4">
-                            <button class="btn btn-primary" wire:click="filter" wire:loading.attr="disabled">
+                            <button class="btn btn-primary" wire:click="filter" wire:loading.attr="disabled"
+                                wire:target="filter">
                                 <i class="fas fa-filter"></i> Filter
                             </button>
                         </div>
@@ -57,7 +59,8 @@
 
                         <!-- Export Button aligned right -->
                         <div class="form-group mr-lg-5">
-                            <button class="btn btn-warning" wire:click="export" wire:loading.attr="disabled">
+                            <button class="btn btn-warning" wire:click="export" wire:loading.attr="disabled"
+                                wire:target="filter">
                                 <i class="fas fa-file-excel"></i> Export
                             </button>
                         </div>
@@ -86,9 +89,9 @@
                                                 @foreach ($datas as $ddata)
                                                     <tr>
                                                         <td>{{ $ddata->PatientName }}</td>
-                                                        <td>{{ $ddata->DateofConsultation }}</td>
-                                                        <td>{{ $ddata->Age }}</td>
-                                                        <td>{{ $ddata->TypeofService }}</td>
+                                                        <td class="text-center">{{ $ddata->DateofConsultation }}</td>
+                                                        <td class="text-center">{{ $ddata->Age }}</td>
+                                                        <td class="text-center">{{ $ddata->TypeofService }}</td>
                                                         <td>{{ $ddata->ChiefComplaint }}</td>
                                                         <td>{{ $ddata->ClinicalDiagnosis }}</td>
                                                         <td>{{ $ddata->FinalDiagnosis }}</td>
@@ -104,7 +107,8 @@
                                     </table>
                                 </div>
                                 <!-- Show loading while fetching data -->
-                                <div wire:loading class="text-center py-4 justify-content-center align-items-center"
+                                <div wire:loading wire:target="filter, search, status, type, state.fdate, state.tdate"
+                                    class="text-center py-4 justify-content-center align-items-center"
                                     style="height: 100%; width: 100%;">
                                     <div class="spinner-border text-success" role="status">
                                         <span class="sr-only">Loading...</span>
@@ -126,6 +130,16 @@
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
+        <div wire:loading.flex wire:target="export" class="justify-content-center align-items-center"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+           background-color: rgba(255, 255, 255, 0.8); z-index: 1050;">
+            <div class="text-center">
+                <div class="spinner-border text-warning" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Exporting...</span>
+                </div>
+                <p class="mt-3 font-weight-bold text-dark">Exporting data, please wait...</p>
+            </div>
+        </div>
     </div>
     <!-- /.content -->
 </div>

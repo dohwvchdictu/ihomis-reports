@@ -29,7 +29,8 @@
                             <!-- Month Dropdown -->
                             <div>
                                 <label class="form-label">Month</label>
-                                <select class="form-control" wire:model.defer="state.month" style="width: 120px;">
+                                <select class="form-control" wire:model.defer="state.month" wire:loading.attr="disabled"
+                                    wire:target="filter" style="width: 120px;">
                                     @foreach (range(1, 12) as $m)
                                         <option value="{{ sprintf('%02d', $m) }}">
                                             {{ date('F', mktime(0, 0, 0, $m, 1)) }}
@@ -41,7 +42,8 @@
                             <!-- Year Dropdown -->
                             <div>
                                 <label class="form-label">Year</label>
-                                <select class="form-control" wire:model.defer="state.year" style="width: 80px;">
+                                <select class="form-control" wire:model.defer="state.year" wire:loading.attr="disabled"
+                                    wire:target="filter" style="width: 80px;">
                                     @foreach (range(now()->year, 2020) as $y)
                                         <option value="{{ $y }}">{{ $y }}</option>
                                     @endforeach
@@ -51,8 +53,9 @@
                             <!-- Filter Button -->
                             <div>
                                 <label class="form-label d-block">&nbsp;</label>
-                                <button class="btn btn-primary" wire:click="filter" style="width: 80px;"><i
-                                        class="fas fa-filter"></i> Filter</button>
+                                <button class="btn btn-primary" wire:click="filter" wire:loading.attr="disabled"
+                                    wire:target="filter" style="width: 80px;"><i class="fas fa-filter"></i>
+                                    Filter</button>
                             </div>
                         </div>
 
@@ -62,7 +65,7 @@
                         <!-- Export Button aligned right -->
                         <div class="d-flex justify-content-end">
                             <button class="btn btn-warning" wire:click="export" wire:loading.attr="disabled"
-                                style="width: 90px;">
+                                wire:target="filter" style="width: 90px;">
                                 <i class="fas fa-file-excel"></i> Export
                             </button>
                         </div>
@@ -101,7 +104,8 @@
                                     </table>
                                 </div>
                                 <!-- Show loading while fetching data -->
-                                <div wire:loading class="text-center py-4 justify-content-center align-items-center"
+                                <div wire:loading wire:target="filter, search, status, type, state.fdate, state.tdate"
+                                    class="text-center py-4 justify-content-center align-items-center"
                                     style="height: 100%; width: 100%;">
                                     <div class="spinner-border text-success" role="status">
                                         <span class="sr-only">Loading...</span>
@@ -115,6 +119,16 @@
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
+        <div wire:loading.flex wire:target="export" class="justify-content-center align-items-center"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+           background-color: rgba(255, 255, 255, 0.8); z-index: 1050;">
+            <div class="text-center">
+                <div class="spinner-border text-warning" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Exporting...</span>
+                </div>
+                <p class="mt-3 font-weight-bold text-dark">Exporting data, please wait...</p>
+            </div>
+        </div>
     </div>
     <!-- /.content -->
 </div>

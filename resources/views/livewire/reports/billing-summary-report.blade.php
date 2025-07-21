@@ -22,21 +22,22 @@
                         <!-- Search Bar -->
                         <div class="form-group mr-3" style="width: 200px;">
                             <input type="text" class="form-control" id="searchBar" wire:model.debounce="search"
-                                placeholder="Search" style="font-size: 14px;">
+                                wire:loading.attr="disabled" wire:target="filter" placeholder="Search"
+                                style="font-size: 14px;">
                         </div>
 
                         <!-- From Date -->
                         <label for="fromDate" class="mb-0" style="font-size: 16px;">From:</label>
                         <div class="form-group mr-2 ml-1" style="width: 120px;">
-                            <input type="date" wire:model.defer="state.fdate" class="form-control"
-                                style="font-size: 14px;">
+                            <input type="date" wire:model.defer="state.fdate" wire:loading.attr="disabled"
+                                wire:target="filter" class="form-control" style="font-size: 14px;">
                         </div>
 
                         <!-- To Date -->
                         <label for="toDate" class="mb-0" style="font-size: 16px;">To:</label>
                         <div class="form-group mr-2 ml-1" style="width: 120px;">
-                            <input type="date" wire:model.defer="state.tdate" class="form-control"
-                                style="font-size: 14px;">
+                            <input type="date" wire:model.defer="state.tdate" wire:loading.attr="disabled"
+                                wire:target="filter" class="form-control" style="font-size: 14px;">
                         </div>
 
                         <!-- Filter Button -->
@@ -51,7 +52,8 @@
 
                         <!-- Export Button aligned right -->
                         <div class="form-group mr-lg-5">
-                            <button class="btn btn-warning" wire:click="export" wire:loading.attr="disabled">
+                            <button class="btn btn-warning" wire:click="export" wire:loading.attr="disabled"
+                                wire:target="filter">
                                 <i class="fas fa-file-excel"></i> Export
                             </button>
                         </div>
@@ -97,29 +99,53 @@
                                             @if ($datas && $datas->count())
                                                 @foreach ($datas as $ddata)
                                                     <tr>
-                                                        <td>{{ $ddata->HospitalCode }}</td>
+                                                        <td class="text-center">{{ $ddata->HospitalCode }}</td>
                                                         <td>{{ $ddata->PatientName }}</td>
-                                                        <td>{{ $ddata->Admission }}</td>
-                                                        <td>{{ $ddata->Discharge }}</td>
-                                                        <td>{{ $ddata->RoomBoard }}</td>
-                                                        <td>{{ $ddata->Medicines }}</td>
-                                                        <td>{{ $ddata->Miscellaneous }}</td>
-                                                        <td>{{ $ddata->Supplies }}</td>
-                                                        <td>{{ $ddata->Radiology }}</td>
-                                                        <td>{{ $ddata->Laboratory }}</td>
-                                                        <td>{{ $ddata->nbb }}</td>
-                                                        <td>{{ $ddata->philhealthbenehci }}</td>
-                                                        <td>{{ $ddata->ptotalactualchargeshci }}</td>
-                                                        <td>{{ $ddata->pdiscounthci }}</td>
-                                                        <td>{{ $ddata->ptotalactualchargespf }}</td>
-                                                        <td>{{ $ddata->pdiscountpf }}</td>
-                                                        <td>{{ $ddata->philhealthbenepf }}</td>
-                                                        <td>{{ $ddata->session1 }}</td>
-                                                        <td>{{ $ddata->session2 }}</td>
-                                                        <td>{{ $ddata->firstcase }}</td>
-                                                        <td>{{ $ddata->amt1 }}</td>
-                                                        <td>{{ $ddata->secondcase }}</td>
-                                                        <td>{{ $ddata->amt2 }}</td>
+                                                        <td class="text-center">{{ $ddata->Admission }}</td>
+                                                        <td class="text-center">{{ $ddata->Discharge }}</td>
+                                                        <td class="text-right">{{ number_format($ddata->RoomBoard, 2) }}
+                                                        </td>
+                                                        <td class="text-right">{{ number_format($ddata->Medicines, 2) }}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{ number_format($ddata->Miscellaneous, 2) }}
+                                                        </td>
+                                                        <td class="text-right">{{ number_format($ddata->Supplies, 2) }}
+                                                        </td>
+                                                        <td class="text-right">{{ number_format($ddata->Radiology, 2) }}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{ number_format($ddata->Laboratory, 2) }}
+                                                        </td>
+                                                        <td class="text-center">{{ $ddata->nbb }}</td>
+                                                        <td class="text-right">
+                                                            {{ number_format($ddata->philhealthbenehci, 2) }}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{ number_format($ddata->ptotalactualchargeshci, 2) }}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{ number_format($ddata->pdiscounthci, 2) }}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{ number_format($ddata->ptotalactualchargespf, 2) }}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{ number_format($ddata->pdiscountpf, 2) }}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            {{ number_format($ddata->philhealthbenepf, 2) }}
+                                                        </td>
+                                                        <td class="text-center">{{ $ddata->session1 }}</td>
+                                                        <td class="text-center">{{ $ddata->session2 }}</td>
+                                                        <td class="text-center">{{ $ddata->firstcase }}</td>
+                                                        <td class="text-right">
+                                                            {{ number_format($ddata->amt1, 2) }}
+                                                        </td>
+                                                        <td class="text-center">{{ $ddata->secondcase }}</td>
+                                                        <td class="text-right">
+                                                            {{ number_format($ddata->amt2, 2) }}
+                                                        </td>
                                                     </tr>
                                                 @endforeach
                                             @else
@@ -131,7 +157,8 @@
                                     </table>
                                 </div>
                                 <!-- Show loading while fetching data -->
-                                <div wire:loading class="text-center py-4 justify-content-center align-items-center"
+                                <div wire:loading wire:target="filter, search, status, type, state.fdate, state.tdate"
+                                    class="text-center py-4 justify-content-center align-items-center"
                                     style="height: 100%; width: 100%;">
                                     <div class="spinner-border text-success" role="status">
                                         <span class="sr-only">Loading...</span>
@@ -152,6 +179,15 @@
                 </div>
             </div>
         </div>
+        <div wire:loading.flex wire:target="export" class="justify-content-center align-items-center"
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+           background-color: rgba(255, 255, 255, 0.8); z-index: 1050;">
+            <div class="text-center">
+                <div class="spinner-border text-warning" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Exporting...</span>
+                </div>
+                <p class="mt-3 font-weight-bold text-dark">Exporting data, please wait...</p>
+            </div>
+        </div>
     </div>
-</div>
 </div>

@@ -55,9 +55,10 @@
         @include('layouts.partials.aside')
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper position-relative">
             {{ $slot }}
         </div>
+
         <!-- /.content-wrapper -->
 
         <!-- Control Sidebar -->
@@ -162,6 +163,8 @@
     </script>
 
     <livewire:scripts />
+    @stack('scripts')
+
 </body>
 
 </html>

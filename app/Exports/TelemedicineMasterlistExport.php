@@ -54,7 +54,7 @@ class TelemedicineMasterlistExport implements FromCollection, WithHeadings, With
     {
         $sheet->getStyle('1')->getFont()->setBold(true);
 
-        foreach (range('A', 'G') as $columnID) {
+        foreach (range('A', 'H') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true);
         }
     }

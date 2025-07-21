@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
@@ -121,13 +122,35 @@ class PHECStatusExport implements FromCollection, WithHeadings, WithMapping, Wit
 
     public function styles(Worksheet $sheet)
     {
-        // Bold first row (header)
+        // Bold first row (headers)
         $sheet->getStyle('1')->getFont()->setBold(true);
 
-        // Auto size columns A to S (or however many columns you have)
+        // Auto-size columns A to S
         foreach (range('A', 'S') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true);
         }
+
+        // Set alignment
+        $alignmentCenter = ['alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER]];
+        $alignmentRight = ['alignment' => ['horizontal' => Alignment::HORIZONTAL_RIGHT]];
+        $alignmentLeft = ['alignment' => ['horizontal' => Alignment::HORIZONTAL_LEFT]];
+
+        // Centered columns (adjust as needed)
+        $sheet->getStyle('A')->applyFromArray($alignmentCenter); // Claim Series LHIO
+        $sheet->getStyle('H')->applyFromArray($alignmentCenter); // PHIC Number
+        $sheet->getStyle('I')->applyFromArray($alignmentCenter); // Admission Date
+        $sheet->getStyle('J')->applyFromArray($alignmentCenter);
+        $sheet->getStyle('L')->applyFromArray($alignmentLeft); // Discharge Date
+        $sheet->getStyle('M')->applyFromArray($alignmentCenter); // Received Date
+        $sheet->getStyle('N')->applyFromArray($alignmentCenter); // Status
+        $sheet->getStyle('O')->applyFromArray($alignmentCenter); // First Case Code
+        $sheet->getStyle('S')->applyFromArray($alignmentCenter); // Claim Date Refile
+
+        // Right-aligned columns for numeric money
+        $sheet->getStyle('P')->applyFromArray($alignmentRight); // Doctor Fee
+        $sheet->getStyle('Q')->applyFromArray($alignmentRight); // Hospital Fee
+        $sheet->getStyle('R')->applyFromArray($alignmentRight); // Total Claim Amount Paid
     }
+
 }
 
