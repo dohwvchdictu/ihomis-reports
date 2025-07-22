@@ -16,6 +16,7 @@
     <script src="{{ mix('js/app.js') }}" defer></script>
 
     <title>{{ $title ?? 'Login Page' }}</title>
+    <link rel="icon" href="{{ asset('storage/images/favicon.ico') }}" type="image/x-icon">
 </head>
 
 <body class="bg-slate-100 dark:bg-slate-700">

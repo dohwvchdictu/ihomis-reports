@@ -7,6 +7,9 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <title>iHOMIS Reports</title>
+    <link rel="icon" href="{{ asset('storage/images/favicon.ico') }}" type="image/x-icon">
+
+
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('backend/plugins/fontawesome-free/css/all.min.css') }}">
